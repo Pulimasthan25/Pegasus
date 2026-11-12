@@ -1,0 +1,34 @@
+<div class="shield-app-frame">
+  <!-- Top Global Tactical Navigation Header -->
+  <header class="tactical-navbar">
+    <div class="nav-left">
+      <div class="radar-dot"></div>
+      <a routerLink="/" class="brand-link">
+        <span class="brand-text">{{ projectTitle() }}</span>
+      </a>
+      <span class="protocol-chip">{{ protocol() }}</span>
+    </div>
+
+    <nav class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-item">
+        Pegasus Bridge
+      </a>
+      <a routerLink="/initiatives" routerLinkActive="active" class="nav-item">
+        Classified Initiatives
+      </a>
+    </nav>
+  </header>
+
+  <!-- Main View Container -->
+  <main class="tactical-main">
+    <router-outlet />
+  </main>
+
+  <!-- Footer HUD Bar -->
+  <footer class="tactical-footer">
+    <div class="footer-content">
+      <span>STRATEGIC HOMELAND INTERVENTION, ENFORCEMENT AND LOGISTICS DIVISION</span>
+      <span>LEVEL 7 CLASSIFICATION REQUIRED // STARK INDUSTRIES QUANTUM COMPILER v21.2</span>
+    </div>
+  </footer>
+</div>

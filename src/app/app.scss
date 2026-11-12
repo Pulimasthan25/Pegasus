@@ -1,0 +1,137 @@
+.shield-app-frame {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.05) 0%, transparent 70%),
+              radial-gradient(circle at 100% 100%, rgba(10, 30, 60, 0.4) 0%, transparent 60%),
+              #070b14;
+}
+
+.tactical-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(10, 16, 28, 0.85);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .radar-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00f0ff;
+    box-shadow: 0 0 10px #00f0ff;
+    animation: radar-ping 1.8s infinite;
+  }
+
+  .brand-link {
+    text-decoration: none;
+    .brand-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+    }
+  }
+
+  .protocol-chip {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: #798e9f;
+    font-family: monospace;
+    padding: 0.2rem 0.5rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+
+    @media (max-width: 600px) {
+      display: none;
+    }
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .nav-item {
+    text-decoration: none;
+    color: #9cb3c9;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: #00f0ff;
+      background: rgba(0, 240, 255, 0.08);
+    }
+
+    &.active {
+      color: #ffffff;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+    }
+  }
+}
+
+.tactical-main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.tactical-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(8, 13, 22, 0.9);
+  padding: 1.25rem 2rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: #63778a;
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+@keyframes radar-ping {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(0, 240, 255, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 240, 255, 0);
+  }
+}
