@@ -1,0 +1,633 @@
+<div class="min-h-screen bg-background text-foreground p-6 space-y-10">
+
+  <!-- Page Header -->
+  <header class="border-b pb-6">
+    <div class="flex items-center gap-3 mb-2">
+      <ng-icon name="lucideShield" class="text-3xl text-primary" />
+      <h1 class="text-3xl font-bold tracking-widest">S.H.I.E.L.D. // SPARTAN UI PoC</h1>
+    </div>
+    <p class="text-muted-foreground text-sm">Project P.E.G.A.S.U.S. — Component Validation Matrix — Clearance Level 7</p>
+  </header>
+
+  <!-- Toaster (place once globally in page) -->
+  <hlm-toaster />
+
+  <!-- TABS wrapping all sections -->
+  <div hlmTabs tab="controls" class="w-full">
+
+    <!-- Tabs List -->
+    <div hlmTabsList class="mb-6 flex-wrap h-auto w-full">
+      <button hlmTabsTrigger="controls">Controls</button>
+      <button hlmTabsTrigger="forms">Forms</button>
+      <button hlmTabsTrigger="display">Display &amp; Media</button>
+      <button hlmTabsTrigger="overlays">Overlays</button>
+    </div>
+
+    <!-- ===================== TAB: CONTROLS ===================== -->
+    <div hlmTabsContent="controls" class="space-y-6">
+
+      <!-- BUTTON -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideZap" class="inline-block me-1" />
+          Button
+        </h2>
+        <div class="flex flex-wrap gap-3">
+          <button hlmBtn>Default</button>
+          <button hlmBtn variant="outline">Outline</button>
+          <button hlmBtn variant="secondary">Secondary</button>
+          <button hlmBtn variant="destructive">Destructive</button>
+          <button hlmBtn variant="ghost">Ghost</button>
+          <button hlmBtn variant="link">Link</button>
+          <button hlmBtn [disabled]="true">Disabled</button>
+          <button hlmBtn size="sm">Small</button>
+          <button hlmBtn size="lg">Large</button>
+          <button hlmBtn>
+            <hlm-spinner class="me-2 size-4" />
+            Loading...
+          </button>
+        </div>
+      </section>
+
+      <!-- SPINNER -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideLoader2" class="inline-block me-1" />
+          Spinner
+        </h2>
+        <div class="flex gap-6 items-center">
+          <div class="text-center space-y-1">
+            <hlm-spinner />
+            <p class="text-xs text-muted-foreground">Default</p>
+          </div>
+          <div class="text-center space-y-1">
+            <hlm-spinner class="text-primary text-2xl" />
+            <p class="text-xs text-muted-foreground">Primary / 2xl</p>
+          </div>
+          <div class="text-center space-y-1">
+            <hlm-spinner class="text-destructive text-3xl" />
+            <p class="text-xs text-muted-foreground">Destructive / 3xl</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SWITCH -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideActivity" class="inline-block me-1" />
+          Switch
+        </h2>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <hlm-switch [(ngModel)]="quantumEncryption" id="switch-quantum" />
+            <label for="switch-quantum" class="text-sm cursor-pointer">
+              Quantum Encryption: <span class="font-semibold">{{ quantumEncryption() ? 'ACTIVE' : 'INACTIVE' }}</span>
+            </label>
+          </div>
+          <div class="flex items-center gap-3">
+            <hlm-switch [(ngModel)]="vibraniumGrid" id="switch-vibranium" />
+            <label for="switch-vibranium" class="text-sm cursor-pointer">
+              Vibranium Shield Grid: <span class="font-semibold">{{ vibraniumGrid() ? 'ONLINE' : 'OFFLINE' }}</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDER -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideSliders" class="inline-block me-1" />
+          Slider
+        </h2>
+        <div class="max-w-sm space-y-3">
+          <div class="flex justify-between text-sm">
+            <label class="text-muted-foreground">Arc Reactor Core Output</label>
+            <span class="font-mono font-semibold">{{ coreOutput() }}%</span>
+          </div>
+          <hlm-slider
+            [value]="[coreOutput()]"
+            [min]="0"
+            [max]="100"
+            [step]="1"
+            (valueChange)="coreOutput.set($event[0])"
+          />
+          <div class="flex justify-between text-xs text-muted-foreground">
+            <span>0%</span><span>50%</span><span>100%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROGRESS -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideActivity" class="inline-block me-1" />
+          Progress
+        </h2>
+        <div class="max-w-sm space-y-4">
+          <div class="space-y-1">
+            <div class="flex justify-between text-sm">
+              <span class="text-muted-foreground">Tesseract Containment</span>
+              <span class="font-mono font-semibold">{{ progressValue() }}%</span>
+            </div>
+            <div hlmProgress [value]="progressValue()">
+              <div hlmProgressIndicator></div>
+            </div>
+          </div>
+          <div class="space-y-1">
+            <span class="text-sm text-muted-foreground">Infinity Stone Analysis (indeterminate)</span>
+            <div hlmProgress>
+              <div hlmProgressIndicator></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHECKBOX -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideCheck" class="inline-block me-1" />
+          Checkbox
+        </h2>
+        <div class="space-y-3">
+          <label class="flex items-center gap-3 cursor-pointer">
+            <hlm-checkbox [(ngModel)]="quantumEncryption" id="cb-quantum" />
+            <span class="text-sm">Enable Quantum Encryption Protocol</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <hlm-checkbox [(ngModel)]="vibraniumGrid" id="cb-vibranium" />
+            <span class="text-sm">Activate Vibranium Shield Grid</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer opacity-50">
+            <hlm-checkbox [disabled]="true" id="cb-disabled" />
+            <span class="text-sm">Disabled — Level 10 Clearance Required</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- RADIO GROUP -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideRadio" class="inline-block me-1" />
+          Radio Group
+        </h2>
+        <div hlmRadioGroup [(ngModel)]="energyFrequency" class="space-y-2">
+          <label class="flex items-center gap-3 cursor-pointer">
+            <hlm-radio value="cosmic"><hlm-radio-indicator /></hlm-radio>
+            <span class="text-sm">Cosmic Frequency</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <hlm-radio value="gamma"><hlm-radio-indicator /></hlm-radio>
+            <span class="text-sm">Gamma Frequency (Banner Protocol)</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <hlm-radio value="quantum"><hlm-radio-indicator /></hlm-radio>
+            <span class="text-sm">Quantum Realm Frequency</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <hlm-radio value="pym"><hlm-radio-indicator /></hlm-radio>
+            <span class="text-sm">Pym Particle Frequency</span>
+          </label>
+        </div>
+        <p class="text-sm text-muted-foreground mt-3">
+          Active frequency: <span class="font-mono font-semibold uppercase">{{ energyFrequency() }}</span>
+        </p>
+      </section>
+
+    </div>
+
+    <!-- ===================== TAB: FORMS ===================== -->
+    <div hlmTabsContent="forms" class="space-y-6">
+
+      <!-- INPUT -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideTerminal" class="inline-block me-1" />
+          Input
+        </h2>
+        <div class="max-w-sm space-y-3">
+          <div class="space-y-1">
+            <label class="text-xs text-muted-foreground uppercase tracking-wide">Operative Codename</label>
+            <input hlmInput type="text" placeholder="e.g. Hawkeye..." [(ngModel)]="operativeCodename" class="w-full" />
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-muted-foreground uppercase tracking-wide">Level 7 Access Code</label>
+            <input hlmInput type="password" placeholder="Enter secure token..." class="w-full" />
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs text-muted-foreground uppercase tracking-wide">Helicarrier ID (Disabled)</label>
+            <input hlmInput type="text" disabled placeholder="SHC-001-CLASSIFIED" class="w-full" />
+          </div>
+          <p class="text-xs text-muted-foreground">Operative: <span class="font-mono">{{ operativeCodename() }}</span></p>
+        </div>
+      </section>
+
+      <!-- TEXTAREA -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideFileText" class="inline-block me-1" />
+          Textarea
+        </h2>
+        <div class="max-w-sm space-y-2">
+          <label class="text-xs text-muted-foreground uppercase tracking-wide">Mission Briefing Notes</label>
+          <textarea
+            hlmTextarea
+            placeholder="Enter mission briefing details..."
+            rows="4"
+            [(ngModel)]="missionNotes"
+            class="w-full"
+          ></textarea>
+          <p class="text-xs text-muted-foreground">{{ missionNotes().length }} / 500 characters</p>
+        </div>
+      </section>
+
+      <!-- SELECT -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideChevronDown" class="inline-block me-1" />
+          Select
+        </h2>
+        <div class="space-y-2">
+          <label class="text-xs text-muted-foreground uppercase tracking-wide">Mission Protocol</label>
+          <div hlmSelect [(ngModel)]="selectedProtocol">
+            <hlm-select-trigger class="w-72">
+              <hlm-select-value placeholder="Choose protocol..." />
+            </hlm-select-trigger>
+            <hlm-select-content *hlmSelectPortal>
+              <hlm-select-group>
+                @for (p of protocols; track p) {
+                  <hlm-select-item [value]="p">{{ p }}</hlm-select-item>
+                }
+              </hlm-select-group>
+            </hlm-select-content>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Selected: <span class="font-mono font-semibold">{{ selectedProtocol() }}</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- COMBOBOX -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideSearch" class="inline-block me-1" />
+          Combobox
+        </h2>
+        <div class="space-y-2">
+          <label class="text-xs text-muted-foreground uppercase tracking-wide">Select Operative</label>
+          <div hlmCombobox [(value)]="selectedAvenger" class="w-72">
+            <hlm-combobox-trigger class="w-full">
+              <hlm-combobox-value placeholder="Select Avenger..." />
+            </hlm-combobox-trigger>
+            <hlm-combobox-content *hlmComboboxPortal>
+              <div hlmComboboxList>
+                <hlm-combobox-input placeholder="Search operatives..." />
+                <hlm-combobox-empty>No operative found in database.</hlm-combobox-empty>
+                @for (a of avengers; track a.value) {
+                  <hlm-combobox-item [value]="a.value">{{ a.label }}</hlm-combobox-item>
+                }
+              </div>
+            </hlm-combobox-content>
+          </div>
+          <p class="text-sm text-muted-foreground">
+            Selected: <span class="font-mono font-semibold">{{ selectedAvenger() }}</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- AUTOCOMPLETE -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideSearch" class="inline-block me-1" />
+          Autocomplete
+        </h2>
+        <div class="space-y-2">
+          <label class="text-xs text-muted-foreground uppercase tracking-wide">Protocol Search</label>
+          <div hlmAutocomplete class="w-72">
+            <hlm-autocomplete-input placeholder="Search protocol..." />
+            <hlm-autocomplete-content *hlmAutocompletePortal>
+              <div hlmAutocompleteList>
+                @for (p of protocols; track p) {
+                  <hlm-autocomplete-item [value]="p">{{ p }}</hlm-autocomplete-item>
+                }
+              </div>
+            </hlm-autocomplete-content>
+          </div>
+        </div>
+      </section>
+
+      <!-- DATE PICKER -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideCalendar" class="inline-block me-1" />
+          Date Picker
+        </h2>
+        <div class="space-y-2">
+          <label class="text-xs text-muted-foreground uppercase tracking-wide">Mission Date</label>
+          <hlm-date-picker [(ngModel)]="missionDate">
+            <hlm-date-picker-trigger class="w-64">
+              <ng-icon name="lucideCalendar" class="me-2 opacity-70" />
+              Select mission date...
+            </hlm-date-picker-trigger>
+          </hlm-date-picker>
+          @if (missionDate()) {
+            <p class="text-sm text-muted-foreground">
+              Scheduled: <span class="font-mono font-semibold">{{ missionDate()!.toLocaleDateString() }}</span>
+            </p>
+          }
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ===================== TAB: DISPLAY & MEDIA ===================== -->
+    <div hlmTabsContent="display" class="space-y-6">
+
+      <!-- AVATAR -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideUser" class="inline-block me-1" />
+          Avatar
+        </h2>
+        <div class="flex flex-wrap gap-6 items-end">
+          <div class="text-center space-y-1">
+            <div hlmAvatar>
+              <img hlmAvatarImage src="https://i.pravatar.cc/150?img=1" alt="Nick Fury" />
+              <span hlmAvatarFallback>NF</span>
+            </div>
+            <p class="text-xs text-muted-foreground">Nick Fury</p>
+          </div>
+          <div class="text-center space-y-1">
+            <div hlmAvatar>
+              <img hlmAvatarImage src="https://i.pravatar.cc/150?img=2" alt="Phil Coulson" />
+              <span hlmAvatarFallback>PC</span>
+            </div>
+            <p class="text-xs text-muted-foreground">P. Coulson</p>
+          </div>
+          <div class="text-center space-y-1">
+            <div hlmAvatar>
+              <img hlmAvatarImage src="https://invalid-url.example" alt="Tony Stark" />
+              <span hlmAvatarFallback>TS</span>
+            </div>
+            <p class="text-xs text-muted-foreground">Fallback</p>
+          </div>
+          <div class="text-center space-y-1">
+            <div hlmAvatarGroup>
+              <div hlmAvatar><span hlmAvatarFallback>T1</span></div>
+              <div hlmAvatar><span hlmAvatarFallback>T2</span></div>
+              <div hlmAvatar><span hlmAvatarFallback>T3</span></div>
+              <div hlmAvatarGroupCount>+12</div>
+            </div>
+            <p class="text-xs text-muted-foreground">Group (+12)</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ASPECT RATIO -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideLayers" class="inline-block me-1" />
+          Aspect Ratio
+        </h2>
+        <div class="flex flex-wrap gap-6 items-start">
+          <div class="w-72">
+            <p class="text-xs text-muted-foreground mb-2">16:9 — Tactical Display</p>
+            <div hlmAspectRatio="16/9" class="bg-muted rounded-lg flex items-center justify-center border">
+              <div class="text-center space-y-1">
+                <ng-icon name="lucideShield" class="text-4xl text-muted-foreground" />
+                <p class="text-xs text-muted-foreground">Helicarrier Feed</p>
+              </div>
+            </div>
+          </div>
+          <div class="w-32">
+            <p class="text-xs text-muted-foreground mb-2">1:1 — Avatar Frame</p>
+            <div hlmAspectRatio="1/1" class="bg-muted rounded-full flex items-center justify-center border">
+              <ng-icon name="lucideShield" class="text-3xl text-primary" />
+            </div>
+          </div>
+          <div class="w-48">
+            <p class="text-xs text-muted-foreground mb-2">4:3 — Intel Photo</p>
+            <div hlmAspectRatio="4/3" class="bg-muted rounded-lg flex items-center justify-center border">
+              <ng-icon name="lucideLock" class="text-3xl text-muted-foreground" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ATTACHMENT -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideFileText" class="inline-block me-1" />
+          Attachment
+        </h2>
+        <div class="space-y-3">
+          <!-- Done state -->
+          <div hlmAttachment state="done">
+            <div hlmAttachmentMedia variant="icon">
+              <ng-icon name="lucideFileText" />
+            </div>
+            <div hlmAttachmentContent>
+              <div hlmAttachmentTitle>mission-briefing.pdf</div>
+              <div hlmAttachmentDescription>245 KB • PDF Document</div>
+            </div>
+            <div hlmAttachmentActions>
+              <button hlmAttachmentAction>
+                <ng-icon name="lucideDownload" />
+              </button>
+              <button hlmAttachmentAction>
+                <ng-icon name="lucideX" />
+              </button>
+            </div>
+          </div>
+          <!-- Uploading state -->
+          <div hlmAttachment state="uploading">
+            <div hlmAttachmentMedia variant="icon">
+              <hlm-spinner />
+            </div>
+            <div hlmAttachmentContent>
+              <div hlmAttachmentTitle>tesseract-data.enc</div>
+              <div hlmAttachmentDescription>Uploading to Helicarrier... 67%</div>
+            </div>
+          </div>
+          <!-- Error state -->
+          <div hlmAttachment state="error">
+            <div hlmAttachmentMedia variant="icon">
+              <ng-icon name="lucideX" />
+            </div>
+            <div hlmAttachmentContent>
+              <div hlmAttachmentTitle>classified-intel.zip</div>
+              <div hlmAttachmentDescription>Upload failed — insufficient clearance</div>
+            </div>
+            <div hlmAttachmentActions>
+              <button hlmAttachmentAction>
+                <ng-icon name="lucideX" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOOLTIP -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideInfo" class="inline-block me-1" />
+          Tooltip
+        </h2>
+        <div class="flex flex-wrap gap-4 items-center">
+          <button hlmBtn variant="outline" hlmTooltip="Level 7 Clearance Required" position="top">Hover — Top</button>
+          <button hlmBtn variant="outline" hlmTooltip="Tesseract Energy: 4.21 GeV" position="bottom">Hover — Bottom</button>
+          <button hlmBtn variant="outline" hlmTooltip="Pym Particle Array Nominal" position="left">Hover — Left</button>
+          <button hlmBtn variant="outline" hlmTooltip="Quantum Tunnel: Stable" position="right">Hover — Right</button>
+          <button hlmBtn variant="ghost" size="icon" hlmTooltip="S.H.I.E.L.D. Protocol Active">
+            <ng-icon name="lucideInfo" />
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ===================== TAB: OVERLAYS ===================== -->
+    <div hlmTabsContent="overlays" class="space-y-6">
+
+      <!-- DIALOG -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideLayers" class="inline-block me-1" />
+          Dialog
+        </h2>
+        <div class="flex flex-wrap gap-3">
+          <hlm-dialog>
+            <button hlmDialogTrigger hlmBtn>Open Mission Briefing</button>
+            <hlm-dialog-content *hlmDialogPortal>
+              <div hlmDialogHeader>
+                <h2 hlmDialogTitle>MISSION BRIEFING // CLASSIFIED</h2>
+                <p hlmDialogDescription>
+                  Level 7 clearance required. Unauthorized access is a federal offense under SHIELD protocol 84-C.
+                </p>
+              </div>
+              <div class="py-4 text-sm space-y-2">
+                <p><strong>Operative:</strong> Phil Coulson</p>
+                <p><strong>Target:</strong> Loki Laufeyson — Armed and Dangerous</p>
+                <p><strong>Location:</strong> Stuttgart, Germany</p>
+                <p class="text-muted-foreground">Tesseract energy signatures detected at the following coordinates. Avengers Initiative authorized for intercept.</p>
+              </div>
+              <div hlmDialogFooter>
+                <button hlmBtn variant="outline" hlmDialogClose>Abort Mission</button>
+                <button hlmBtn>Confirm Deployment</button>
+              </div>
+            </hlm-dialog-content>
+          </hlm-dialog>
+
+          <hlm-dialog>
+            <button hlmDialogTrigger hlmBtn variant="destructive">Danger Zone</button>
+            <hlm-dialog-content *hlmDialogPortal>
+              <div hlmDialogHeader>
+                <h2 hlmDialogTitle>CRITICAL ALERT</h2>
+                <p hlmDialogDescription>
+                  This action will trigger the Avengers Protocol. Proceed with extreme caution.
+                </p>
+              </div>
+              <div class="py-4 text-sm">
+                <p class="text-destructive font-semibold">⚠ Warning: Infinity Stones detected nearby. Unauthorized access will result in immediate de-atomization.</p>
+              </div>
+              <div hlmDialogFooter>
+                <button hlmBtn variant="ghost" hlmDialogClose>Stand Down</button>
+                <button hlmBtn variant="destructive">Activate Protocol</button>
+              </div>
+            </hlm-dialog-content>
+          </hlm-dialog>
+        </div>
+      </section>
+
+      <!-- SHEET -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideLayers" class="inline-block me-1" />
+          Sheet
+        </h2>
+        <div class="flex flex-wrap gap-3">
+          <hlm-sheet>
+            <button hlmSheetTrigger hlmBtn variant="outline">Open Right Panel</button>
+            <hlm-sheet-content *hlmSheetPortal side="right">
+              <div hlmSheetHeader>
+                <h2 hlmSheetTitle>S.H.I.E.L.D. INTEL PANEL</h2>
+                <p hlmSheetDescription>Classified operative profiles and mission data.</p>
+              </div>
+              <div class="py-4 text-sm space-y-3 flex-1 px-4">
+                <div class="flex items-center gap-3">
+                  <div hlmAvatar>
+                    <img hlmAvatarImage src="https://i.pravatar.cc/150?img=1" alt="Nick Fury" />
+                    <span hlmAvatarFallback>NF</span>
+                  </div>
+                  <div>
+                    <p class="font-semibold">Nick Fury</p>
+                    <p class="text-xs text-muted-foreground">Director, S.H.I.E.L.D.</p>
+                  </div>
+                </div>
+                <div class="border rounded-lg p-3 space-y-1 text-sm">
+                  <p><strong>Clearance:</strong> Level 10</p>
+                  <p><strong>Status:</strong> <span class="text-green-500">Active</span></p>
+                  <p><strong>Location:</strong> Helicarrier Alpha</p>
+                  <p><strong>Asset:</strong> Tesseract</p>
+                </div>
+              </div>
+              <div hlmSheetFooter>
+                <button hlmBtn hlmSheetClose variant="outline" class="w-full">Close Panel</button>
+              </div>
+            </hlm-sheet-content>
+          </hlm-sheet>
+
+          <hlm-sheet>
+            <button hlmSheetTrigger hlmBtn variant="secondary">Open Bottom Panel</button>
+            <hlm-sheet-content *hlmSheetPortal side="bottom">
+              <div hlmSheetHeader>
+                <h2 hlmSheetTitle>AVENGERS STATUS BOARD</h2>
+                <p hlmSheetDescription>Current readiness status of all Avengers operatives.</p>
+              </div>
+              <div class="py-4 grid grid-cols-2 gap-2 sm:grid-cols-3 flex-1 px-4">
+                @for (a of avengers; track a.value) {
+                  <div class="border rounded-lg p-2 text-xs flex items-center gap-2">
+                    <span class="size-2 rounded-full bg-green-500 shrink-0"></span>
+                    <span>{{ a.label }}</span>
+                  </div>
+                }
+              </div>
+              <div hlmSheetFooter>
+                <button hlmBtn hlmSheetClose variant="outline">Dismiss</button>
+              </div>
+            </hlm-sheet-content>
+          </hlm-sheet>
+        </div>
+      </section>
+
+      <!-- SONNER (Toast) -->
+      <section class="poc-section">
+        <h2 class="poc-section-title">
+          <ng-icon name="lucideBell" class="inline-block me-1" />
+          Sonner (Toast)
+        </h2>
+        <p class="text-sm text-muted-foreground mb-4">Trigger S.H.I.E.L.D. notification system alerts:</p>
+        <div class="flex flex-wrap gap-3">
+          <button hlmBtn (click)="showSuccessToast()">
+            <ng-icon name="lucideCheck" class="me-2" />
+            Success Alert
+          </button>
+          <button hlmBtn variant="outline" (click)="showWarningToast()">
+            <ng-icon name="lucideActivity" class="me-2" />
+            Warning Alert
+          </button>
+          <button hlmBtn variant="secondary" (click)="showInfoToast()">
+            <ng-icon name="lucideInfo" class="me-2" />
+            Info Uplink
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t pt-4 text-center text-xs text-muted-foreground tracking-wide">
+    PROJECT P.E.G.A.S.U.S. // S.H.I.E.L.D. SPARTAN UI PoC // CLASSIFIED LEVEL 7
+  </footer>
+
+</div>
