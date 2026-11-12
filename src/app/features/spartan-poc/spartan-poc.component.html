@@ -240,29 +240,133 @@
         </div>
       </section>
 
-      <!-- SELECT -->
+      <!-- SELECT & MULTI-SELECT WITH SEARCH -->
       <section class="poc-section">
         <h2 class="poc-section-title">
           <ng-icon name="lucideChevronDown" class="inline-block me-1" />
-          Select
+          Select & Multi-Select with Search
         </h2>
-        <div class="space-y-2">
-          <label class="text-xs text-muted-foreground uppercase tracking-wide">Mission Protocol</label>
-          <div hlmSelect [(ngModel)]="selectedProtocol">
-            <hlm-select-trigger class="w-72">
-              <hlm-select-value placeholder="Choose protocol..." />
-            </hlm-select-trigger>
-            <hlm-select-content *hlmSelectPortal>
-              <hlm-select-group>
-                @for (p of protocols; track p) {
-                  <hlm-select-item [value]="p">{{ p }}</hlm-select-item>
-                }
-              </hlm-select-group>
-            </hlm-select-content>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          
+          <!-- MULTI-SELECT WITH SEARCH IN DROPDOWN -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="text-xs text-muted-foreground uppercase tracking-wide font-semibold">
+                Multi-Select Protocols (With Search)
+              </label>
+              <div class="flex gap-2 text-xs">
+                <button
+                  type="button"
+                  (click)="selectAllProtocols()"
+                  class="text-primary hover:underline cursor-pointer"
+                >
+                  Select All
+                </button>
+                <span class="text-muted-foreground">•</span>
+                <button
+                  type="button"
+                  (click)="clearProtocols()"
+                  class="text-muted-foreground hover:text-foreground hover:underline cursor-pointer"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+
+            <div hlmSelectMultiple [(value)]="selectedProtocols" [itemToString]="protocolsToString">
+              <hlm-select-trigger class="w-full">
+                <hlm-select-value placeholder="Select multiple protocols..." />
+              </hlm-select-trigger>
+
+              <hlm-select-content *hlmSelectPortal class="w-80 max-h-80">
+                <!-- Search input inside opened dropdown -->
+                <div class="p-2 border-b flex items-center gap-2 sticky top-0 bg-popover z-10">
+                  <ng-icon name="lucideSearch" class="text-muted-foreground text-sm shrink-0" />
+                  <input
+                    hlmInput
+                    type="text"
+                    placeholder="Search protocols in list..."
+                    [ngModel]="selectSearchQuery()"
+                    (ngModelChange)="selectSearchQuery.set($event)"
+                    (click)="$event.stopPropagation()"
+                    (keydown)="$event.stopPropagation()"
+                    class="h-7 text-xs border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 px-1 py-0 shadow-none w-full outline-none"
+                  />
+                  @if (selectSearchQuery()) {
+                    <button
+                      type="button"
+                      (click)="selectSearchQuery.set(''); $event.stopPropagation()"
+                      class="text-muted-foreground hover:text-foreground text-xs p-1 cursor-pointer"
+                    >
+                      <ng-icon name="lucideX" />
+                    </button>
+                  }
+                </div>
+
+                <!-- Selectable Items -->
+                <hlm-select-group>
+                  <div class="px-2 py-1.5 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+                    Available Protocols ({{ filteredProtocols().length }})
+                  </div>
+                  @for (p of filteredProtocols(); track p) {
+                    <hlm-select-item [value]="p" class="text-xs">
+                      <span class="truncate">{{ p }}</span>
+                    </hlm-select-item>
+                  }
+                  @if (filteredProtocols().length === 0) {
+                    <div class="py-4 text-center text-xs text-muted-foreground">
+                      No protocols matching "{{ selectSearchQuery() }}"
+                    </div>
+                  }
+                </hlm-select-group>
+              </hlm-select-content>
+            </div>
+
+            <!-- Active Selected Badges -->
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              @for (p of selectedProtocols(); track p) {
+                <span hlmBadge variant="secondary" class="text-[11px] gap-1 pl-2 pr-1 py-0.5">
+                  {{ p }}
+                  <button
+                    type="button"
+                    (click)="removeProtocol(p, $event)"
+                    class="hover:text-destructive rounded-full p-0.5 inline-flex items-center cursor-pointer"
+                  >
+                    <ng-icon name="lucideX" class="text-[10px]" />
+                  </button>
+                </span>
+              }
+              @if (selectedProtocols().length === 0) {
+                <span class="text-xs text-muted-foreground italic">No protocols currently selected.</span>
+              }
+            </div>
+            <p class="text-xs text-muted-foreground">
+              Total Active: <span class="font-mono font-semibold text-foreground">{{ selectedProtocols().length }}</span>
+            </p>
           </div>
-          <p class="text-sm text-muted-foreground">
-            Selected: <span class="font-mono font-semibold">{{ selectedProtocol() }}</span>
-          </p>
+
+          <!-- SINGLE-SELECT (Standard) -->
+          <div class="space-y-3">
+            <label class="text-xs text-muted-foreground uppercase tracking-wide font-semibold">
+              Single-Select Protocol
+            </label>
+            <div hlmSelect [(ngModel)]="selectedProtocol">
+              <hlm-select-trigger class="w-full">
+                <hlm-select-value placeholder="Choose protocol..." />
+              </hlm-select-trigger>
+              <hlm-select-content *hlmSelectPortal class="w-80">
+                <hlm-select-group>
+                  @for (p of protocols; track p) {
+                    <hlm-select-item [value]="p" class="text-xs">{{ p }}</hlm-select-item>
+                  }
+                </hlm-select-group>
+              </hlm-select-content>
+            </div>
+            <p class="text-sm text-muted-foreground">
+              Selected: <span class="font-mono font-semibold text-foreground">{{ selectedProtocol() }}</span>
+            </p>
+          </div>
+
         </div>
       </section>
 

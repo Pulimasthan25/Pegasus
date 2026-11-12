@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -35,6 +35,7 @@ import { HlmAspectRatioImports } from '@spartan-ng/helm/aspect-ratio';
 import { HlmAttachmentImports } from '@spartan-ng/helm/attachment';
 import { HlmAutocompleteImports } from '@spartan-ng/helm/autocomplete';
 import { HlmAvatarImports } from '@spartan-ng/helm/avatar';
+import { HlmBadgeImports } from '@spartan-ng/helm/badge';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmCheckboxImports } from '@spartan-ng/helm/checkbox';
 import { HlmComboboxImports } from '@spartan-ng/helm/combobox';
@@ -68,6 +69,7 @@ import { HlmTooltipImports } from '@spartan-ng/helm/tooltip';
     HlmAttachmentImports,
     HlmAutocompleteImports,
     HlmAvatarImports,
+    HlmBadgeImports,
     HlmButtonImports,
     HlmCheckboxImports,
     HlmComboboxImports,
@@ -119,6 +121,8 @@ export class SpartanPocComponent {
   readonly clearanceLevel = signal('Level 7');
   readonly selectedAvenger = signal('iron-man');
   readonly selectedProtocol = signal('PROJECT-PEGASUS');
+  readonly selectedProtocols = signal<string[]>(['PROJECT-PEGASUS-ALPHA', 'AVENGERS-INITIATIVE-BETA']);
+  readonly selectSearchQuery = signal('');
   readonly missionNotes = signal('Tesseract stability matrix holding steady at 4.21 GeV dark energy flux.');
   readonly quantumEncryption = signal(true);
   readonly vibraniumGrid = signal(true);
@@ -144,7 +148,36 @@ export class SpartanPocComponent {
     'TESSERACT-CONTAINMENT-OMEGA',
     'DARK-ENERGY-HARVESTER-NODE',
     'QUANTUM-REALM-GATEWAY-09',
+    'VIBRANIUM-SYNTHESIS-GAMMA',
+    'HELI-CARRIER-DEFENSE-GRID',
+    'EXTREMIS-COUNTERMEASURE-XI',
   ];
+
+  readonly filteredProtocols = computed(() => {
+    const query = this.selectSearchQuery().toLowerCase().trim();
+    if (!query) return this.protocols;
+    return this.protocols.filter((p) => p.toLowerCase().includes(query));
+  });
+
+  readonly protocolsToString = (items: string[] | string | null | undefined): string => {
+    if (Array.isArray(items)) {
+      return items.length > 0 ? `${items.length} selected (${items.join(', ')})` : '';
+    }
+    return items ? String(items) : '';
+  };
+
+  selectAllProtocols(): void {
+    this.selectedProtocols.set([...this.protocols]);
+  }
+
+  clearProtocols(): void {
+    this.selectedProtocols.set([]);
+  }
+
+  removeProtocol(proto: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.selectedProtocols.update((list) => list.filter((p) => p !== proto));
+  }
 
   // Toast triggers using Spartan Sonner
   showSuccessToast(): void {
