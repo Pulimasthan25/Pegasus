@@ -6,7 +6,8 @@
       <ng-icon name="lucideShield" class="text-3xl text-primary" />
       <h1 class="text-3xl font-bold tracking-widest">S.H.I.E.L.D. // SPARTAN UI PoC</h1>
     </div>
-    <p class="text-muted-foreground text-sm">Project P.E.G.A.S.U.S. — Component Validation Matrix — Clearance Level 7</p>
+    <p class="text-muted-foreground text-sm">Project P.E.G.A.S.U.S. — Component Validation Matrix — Clearance Level 7
+    </p>
   </header>
 
   <!-- Toaster (place once globally in page) -->
@@ -46,6 +47,33 @@
             <hlm-spinner class="me-2 size-4" />
             Loading...
           </button>
+        </div>
+
+        <!-- Parent Wrapper Styling Demo (3 Approaches) -->
+        <div class="mt-6 pt-6 border-t border-border/60">
+          <h3 class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            Parent Wrapper Class Color Customization (3 Approaches)
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Approach 1: Scoped CSS Custom Properties -->
+            <div class="parent-wrapper-approach-1 p-4 rounded-lg border border-border bg-background/50 space-y-2">
+              <span class="text-xs font-mono text-muted-foreground block">Approach 1: CSS Variables (--primary)</span>
+              <button hlmBtn>Cyan Pulse</button>
+            </div>
+
+            <!-- Approach 2: Direct Scoped SCSS Selector -->
+            <div class="parent-wrapper-approach-2 p-4 rounded-lg border border-border bg-background/50 space-y-2">
+              <span class="text-xs font-mono text-muted-foreground block">Approach 2: Direct SCSS Selector</span>
+              <button hlmBtn>Emerald Shield</button>
+            </div>
+
+            <!-- Approach 3: Pure Tailwind Descendant Utility Classes -->
+            <div
+              class="parent-wrapper-approach-3 [&_button]:bg-amber-500 [&_button]:text-slate-950 hover:[&_button]:bg-amber-400 p-4 rounded-lg border border-border bg-background/50 space-y-2">
+              <span class="text-xs font-mono text-muted-foreground block">Approach 3: Tailwind Child Selector</span>
+              <button hlmBtn>Amber Protocol</button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -104,13 +132,8 @@
             <label class="text-muted-foreground">Arc Reactor Core Output</label>
             <span class="font-mono font-semibold">{{ coreOutput() }}%</span>
           </div>
-          <hlm-slider
-            [value]="[coreOutput()]"
-            [min]="0"
-            [max]="100"
-            [step]="1"
-            (valueChange)="coreOutput.set($event[0])"
-          />
+          <hlm-slider [value]="[coreOutput()]" [min]="0" [max]="100" [step]="1"
+            (valueChange)="coreOutput.set($event[0])" />
           <div class="flex justify-between text-xs text-muted-foreground">
             <span>0%</span><span>50%</span><span>100%</span>
           </div>
@@ -217,7 +240,8 @@
             <label class="text-xs text-muted-foreground uppercase tracking-wide">Helicarrier ID (Disabled)</label>
             <input hlmInput type="text" disabled placeholder="SHC-001-CLASSIFIED" class="w-full" />
           </div>
-          <p class="text-xs text-muted-foreground">Operative: <span class="font-mono">{{ operativeCodename() }}</span></p>
+          <p class="text-xs text-muted-foreground">Operative: <span class="font-mono">{{ operativeCodename() }}</span>
+          </p>
         </div>
       </section>
 
@@ -229,13 +253,8 @@
         </h2>
         <div class="max-w-sm space-y-2">
           <label class="text-xs text-muted-foreground uppercase tracking-wide">Mission Briefing Notes</label>
-          <textarea
-            hlmTextarea
-            placeholder="Enter mission briefing details..."
-            rows="4"
-            [(ngModel)]="missionNotes"
-            class="w-full"
-          ></textarea>
+          <textarea hlmTextarea placeholder="Enter mission briefing details..." rows="4" [(ngModel)]="missionNotes"
+            class="w-full"></textarea>
           <p class="text-xs text-muted-foreground">{{ missionNotes().length }} / 500 characters</p>
         </div>
       </section>
@@ -260,36 +279,33 @@
 
             <div hlmSelectMultiple [(value)]="selectedPeople">
               <!-- TRIGGER WITH IN-TRIGGER CHIPS, REMOVE 'x', AND '+N' HOVER TOOLTIP (Screenshot 1) -->
-              <hlm-select-trigger class="w-full min-h-11 h-auto py-1 px-2.5 flex items-center justify-between border-input rounded-md bg-background">
+              <hlm-select-trigger
+                class="w-full min-h-11 h-auto py-1 px-2.5 flex items-center justify-between border-input rounded-md bg-background">
                 @if (selectedPeople().length === 0) {
-                  <span class="text-muted-foreground text-sm">Please select</span>
+                <span class="text-muted-foreground text-sm">Please select</span>
                 } @else {
-                  <div class="flex flex-wrap items-center gap-1.5 flex-1 pr-2">
-                    <!-- First 2 visible chips -->
-                    @for (person of visibleSelectedPeople(); track person) {
-                      <span class="inline-flex items-center gap-1.5 bg-muted/80 text-foreground px-2 py-0.5 rounded text-xs border border-border/80">
-                        <span>{{ person }}</span>
-                        <button
-                          type="button"
-                          (click)="removePerson(person, $event)"
-                          class="text-muted-foreground hover:text-destructive cursor-pointer inline-flex items-center justify-center"
-                        >
-                          <ng-icon name="lucideX" class="size-3" />
-                        </button>
-                      </span>
-                    }
+                <div class="flex flex-wrap items-center gap-1.5 flex-1 pr-2">
+                  <!-- First 2 visible chips -->
+                  @for (person of visibleSelectedPeople(); track person) {
+                  <span
+                    class="inline-flex items-center gap-1.5 bg-muted/80 text-foreground px-2 py-0.5 rounded text-xs border border-border/80">
+                    <span>{{ person }}</span>
+                    <button type="button" (click)="removePerson(person, $event)"
+                      class="text-muted-foreground hover:text-destructive cursor-pointer inline-flex items-center justify-center">
+                      <ng-icon name="lucideX" class="size-3" />
+                    </button>
+                  </span>
+                  }
 
-                    <!-- Overflow +N badge with hover tooltip -->
-                    @if (overflowCount() > 0) {
-                      <span
-                        class="inline-flex items-center bg-muted text-foreground px-1.5 py-0.5 rounded text-xs font-semibold border cursor-help transition-colors hover:bg-accent"
-                        [hlmTooltip]="overflowTooltipText()"
-                        position="top"
-                      >
-                        + {{ overflowCount() }}
-                      </span>
-                    }
-                  </div>
+                  <!-- Overflow +N badge with hover tooltip -->
+                  @if (overflowCount() > 0) {
+                  <span
+                    class="inline-flex items-center bg-muted text-foreground px-1.5 py-0.5 rounded text-xs font-semibold border cursor-help transition-colors hover:bg-accent"
+                    [hlmTooltip]="overflowTooltipText()" position="top">
+                    + {{ overflowCount() }}
+                  </span>
+                  }
+                </div>
                 }
               </hlm-select-trigger>
 
@@ -298,35 +314,27 @@
                 <!-- Search input box with magnifying glass -->
                 <div class="p-2.5 border-b sticky top-0 bg-popover z-10">
                   <div class="relative flex items-center">
-                    <input
-                      hlmInput
-                      type="text"
-                      placeholder="Search"
-                      [ngModel]="peopleSearch()"
-                      (ngModelChange)="peopleSearch.set($event)"
-                      (click)="$event.stopPropagation()"
-                      (keydown)="$event.stopPropagation()"
-                      class="w-full pr-8 h-8 text-xs rounded-md bg-background"
-                    />
-                    <ng-icon name="lucideSearch" class="absolute end-2.5 text-muted-foreground text-sm pointer-events-none" />
+                    <input hlmInput type="text" placeholder="Search" [ngModel]="peopleSearch()"
+                      (ngModelChange)="peopleSearch.set($event)" (click)="$event.stopPropagation()"
+                      (keydown)="$event.stopPropagation()" class="w-full pr-8 h-8 text-xs rounded-md bg-background" />
+                    <ng-icon name="lucideSearch"
+                      class="absolute end-2.5 text-muted-foreground text-sm pointer-events-none" />
                   </div>
                 </div>
 
                 <!-- Checkbox options list -->
                 <hlm-select-group class="py-1">
                   @for (person of filteredPeople(); track person) {
-                    <hlm-select-item [value]="person" class="flex items-center gap-2.5 px-3 py-2 text-xs cursor-pointer hover:bg-muted/50">
-                      <hlm-checkbox
-                        [checked]="isPersonSelected(person)"
-                        class="pointer-events-none shrink-0"
-                      />
-                      <span class="truncate">{{ person }}</span>
-                    </hlm-select-item>
+                  <hlm-select-item [value]="person"
+                    class="flex items-center gap-2.5 px-3 py-2 text-xs cursor-pointer hover:bg-muted/50">
+                    <hlm-checkbox [checked]="isPersonSelected(person)" class="pointer-events-none shrink-0" />
+                    <span class="truncate">{{ person }}</span>
+                  </hlm-select-item>
                   }
                   @if (filteredPeople().length === 0) {
-                    <div class="py-6 text-center text-xs text-muted-foreground">
-                      No matching records found.
-                    </div>
+                  <div class="py-6 text-center text-xs text-muted-foreground">
+                    No matching records found.
+                  </div>
                   }
                 </hlm-select-group>
               </hlm-select-content>
@@ -334,8 +342,10 @@
           </div>
 
           <div class="text-xs text-muted-foreground flex items-center justify-between border-t pt-2">
-            <span>Hover over <strong class="text-foreground">+{{ overflowCount() }}</strong> to see the remaining names in a tooltip.</span>
-            <span>Total: <strong class="text-foreground">{{ selectedPeople().length }}</strong> / {{ people.length }}</span>
+            <span>Hover over <strong class="text-foreground">+{{ overflowCount() }}</strong> to see the remaining names
+              in a tooltip.</span>
+            <span>Total: <strong class="text-foreground">{{ selectedPeople().length }}</strong> / {{ people.length
+              }}</span>
           </div>
         </div>
       </section>
@@ -347,7 +357,7 @@
           Select & Multi-Select with Search
         </h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          
+
           <!-- MULTI-SELECT WITH SEARCH IN DROPDOWN -->
           <div class="space-y-3">
             <div class="flex items-center justify-between">
@@ -355,19 +365,13 @@
                 Multi-Select Protocols (With Search)
               </label>
               <div class="flex gap-2 text-xs">
-                <button
-                  type="button"
-                  (click)="selectAllProtocols()"
-                  class="text-primary hover:underline cursor-pointer"
-                >
+                <button type="button" (click)="selectAllProtocols()"
+                  class="text-primary hover:underline cursor-pointer">
                   Select All
                 </button>
                 <span class="text-muted-foreground">•</span>
-                <button
-                  type="button"
-                  (click)="clearProtocols()"
-                  class="text-muted-foreground hover:text-foreground hover:underline cursor-pointer"
-                >
+                <button type="button" (click)="clearProtocols()"
+                  class="text-muted-foreground hover:text-foreground hover:underline cursor-pointer">
                   Clear
                 </button>
               </div>
@@ -382,24 +386,15 @@
                 <!-- Search input inside opened dropdown -->
                 <div class="p-2 border-b flex items-center gap-2 sticky top-0 bg-popover z-10">
                   <ng-icon name="lucideSearch" class="text-muted-foreground text-sm shrink-0" />
-                  <input
-                    hlmInput
-                    type="text"
-                    placeholder="Search protocols in list..."
-                    [ngModel]="selectSearchQuery()"
-                    (ngModelChange)="selectSearchQuery.set($event)"
-                    (click)="$event.stopPropagation()"
+                  <input hlmInput type="text" placeholder="Search protocols in list..." [ngModel]="selectSearchQuery()"
+                    (ngModelChange)="selectSearchQuery.set($event)" (click)="$event.stopPropagation()"
                     (keydown)="$event.stopPropagation()"
-                    class="h-7 text-xs border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 px-1 py-0 shadow-none w-full outline-none"
-                  />
+                    class="h-7 text-xs border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 px-1 py-0 shadow-none w-full outline-none" />
                   @if (selectSearchQuery()) {
-                    <button
-                      type="button"
-                      (click)="selectSearchQuery.set(''); $event.stopPropagation()"
-                      class="text-muted-foreground hover:text-foreground text-xs p-1 cursor-pointer"
-                    >
-                      <ng-icon name="lucideX" />
-                    </button>
+                  <button type="button" (click)="selectSearchQuery.set(''); $event.stopPropagation()"
+                    class="text-muted-foreground hover:text-foreground text-xs p-1 cursor-pointer">
+                    <ng-icon name="lucideX" />
+                  </button>
                   }
                 </div>
 
@@ -409,14 +404,14 @@
                     Available Protocols ({{ filteredProtocols().length }})
                   </div>
                   @for (p of filteredProtocols(); track p) {
-                    <hlm-select-item [value]="p" class="text-xs">
-                      <span class="truncate">{{ p }}</span>
-                    </hlm-select-item>
+                  <hlm-select-item [value]="p" class="text-xs">
+                    <span class="truncate">{{ p }}</span>
+                  </hlm-select-item>
                   }
                   @if (filteredProtocols().length === 0) {
-                    <div class="py-4 text-center text-xs text-muted-foreground">
-                      No protocols matching "{{ selectSearchQuery() }}"
-                    </div>
+                  <div class="py-4 text-center text-xs text-muted-foreground">
+                    No protocols matching "{{ selectSearchQuery() }}"
+                  </div>
                   }
                 </hlm-select-group>
               </hlm-select-content>
@@ -425,23 +420,21 @@
             <!-- Active Selected Badges -->
             <div class="flex flex-wrap gap-1.5 pt-1">
               @for (p of selectedProtocols(); track p) {
-                <span hlmBadge variant="secondary" class="text-[11px] gap-1 pl-2 pr-1 py-0.5">
-                  {{ p }}
-                  <button
-                    type="button"
-                    (click)="removeProtocol(p, $event)"
-                    class="hover:text-destructive rounded-full p-0.5 inline-flex items-center cursor-pointer"
-                  >
-                    <ng-icon name="lucideX" class="text-[10px]" />
-                  </button>
-                </span>
+              <span hlmBadge variant="secondary" class="text-[11px] gap-1 pl-2 pr-1 py-0.5">
+                {{ p }}
+                <button type="button" (click)="removeProtocol(p, $event)"
+                  class="hover:text-destructive rounded-full p-0.5 inline-flex items-center cursor-pointer">
+                  <ng-icon name="lucideX" class="text-[10px]" />
+                </button>
+              </span>
               }
               @if (selectedProtocols().length === 0) {
-                <span class="text-xs text-muted-foreground italic">No protocols currently selected.</span>
+              <span class="text-xs text-muted-foreground italic">No protocols currently selected.</span>
               }
             </div>
             <p class="text-xs text-muted-foreground">
-              Total Active: <span class="font-mono font-semibold text-foreground">{{ selectedProtocols().length }}</span>
+              Total Active: <span class="font-mono font-semibold text-foreground">{{ selectedProtocols().length
+                }}</span>
             </p>
           </div>
 
@@ -457,7 +450,7 @@
               <hlm-select-content *hlmSelectPortal class="w-80">
                 <hlm-select-group>
                   @for (p of protocols; track p) {
-                    <hlm-select-item [value]="p" class="text-xs">{{ p }}</hlm-select-item>
+                  <hlm-select-item [value]="p" class="text-xs">{{ p }}</hlm-select-item>
                   }
                 </hlm-select-group>
               </hlm-select-content>
@@ -487,7 +480,7 @@
                 <hlm-combobox-input placeholder="Search operatives..." />
                 <hlm-combobox-empty>No operative found in database.</hlm-combobox-empty>
                 @for (a of avengers; track a.value) {
-                  <hlm-combobox-item [value]="a.value">{{ a.label }}</hlm-combobox-item>
+                <hlm-combobox-item [value]="a.value">{{ a.label }}</hlm-combobox-item>
                 }
               </div>
             </hlm-combobox-content>
@@ -511,7 +504,7 @@
             <hlm-autocomplete-content *hlmAutocompletePortal>
               <div hlmAutocompleteList>
                 @for (p of protocols; track p) {
-                  <hlm-autocomplete-item [value]="p">{{ p }}</hlm-autocomplete-item>
+                <hlm-autocomplete-item [value]="p">{{ p }}</hlm-autocomplete-item>
                 }
               </div>
             </hlm-autocomplete-content>
@@ -534,9 +527,9 @@
             </hlm-date-picker-trigger>
           </hlm-date-picker>
           @if (missionDate()) {
-            <p class="text-sm text-muted-foreground">
-              Scheduled: <span class="font-mono font-semibold">{{ missionDate()!.toLocaleDateString() }}</span>
-            </p>
+          <p class="text-sm text-muted-foreground">
+            Scheduled: <span class="font-mono font-semibold">{{ missionDate()!.toLocaleDateString() }}</span>
+          </p>
           }
         </div>
       </section>
@@ -678,7 +671,8 @@
         </h2>
         <div class="flex flex-wrap gap-4 items-center">
           <button hlmBtn variant="outline" hlmTooltip="Level 7 Clearance Required" position="top">Hover — Top</button>
-          <button hlmBtn variant="outline" hlmTooltip="Tesseract Energy: 4.21 GeV" position="bottom">Hover — Bottom</button>
+          <button hlmBtn variant="outline" hlmTooltip="Tesseract Energy: 4.21 GeV" position="bottom">Hover —
+            Bottom</button>
           <button hlmBtn variant="outline" hlmTooltip="Pym Particle Array Nominal" position="left">Hover — Left</button>
           <button hlmBtn variant="outline" hlmTooltip="Quantum Tunnel: Stable" position="right">Hover — Right</button>
           <button hlmBtn variant="ghost" size="icon" hlmTooltip="S.H.I.E.L.D. Protocol Active">
@@ -712,7 +706,8 @@
                 <p><strong>Operative:</strong> Phil Coulson</p>
                 <p><strong>Target:</strong> Loki Laufeyson — Armed and Dangerous</p>
                 <p><strong>Location:</strong> Stuttgart, Germany</p>
-                <p class="text-muted-foreground">Tesseract energy signatures detected at the following coordinates. Avengers Initiative authorized for intercept.</p>
+                <p class="text-muted-foreground">Tesseract energy signatures detected at the following coordinates.
+                  Avengers Initiative authorized for intercept.</p>
               </div>
               <div hlmDialogFooter>
                 <button hlmBtn variant="outline" hlmDialogClose>Abort Mission</button>
@@ -731,7 +726,8 @@
                 </p>
               </div>
               <div class="py-4 text-sm">
-                <p class="text-destructive font-semibold">⚠ Warning: Infinity Stones detected nearby. Unauthorized access will result in immediate de-atomization.</p>
+                <p class="text-destructive font-semibold">⚠ Warning: Infinity Stones detected nearby. Unauthorized
+                  access will result in immediate de-atomization.</p>
               </div>
               <div hlmDialogFooter>
                 <button hlmBtn variant="ghost" hlmDialogClose>Stand Down</button>
@@ -789,10 +785,10 @@
               </div>
               <div class="py-4 grid grid-cols-2 gap-2 sm:grid-cols-3 flex-1 px-4">
                 @for (a of avengers; track a.value) {
-                  <div class="border rounded-lg p-2 text-xs flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-green-500 shrink-0"></span>
-                    <span>{{ a.label }}</span>
-                  </div>
+                <div class="border rounded-lg p-2 text-xs flex items-center gap-2">
+                  <span class="size-2 rounded-full bg-green-500 shrink-0"></span>
+                  <span>{{ a.label }}</span>
+                </div>
                 }
               </div>
               <div hlmSheetFooter>

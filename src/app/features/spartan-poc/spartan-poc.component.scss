@@ -15,3 +15,28 @@
   margin-bottom: 1rem;
   text-transform: uppercase;
 }
+
+/* ==========================================================================
+   Parent Wrapper Color Overrides for Buttons (3 Approaches)
+   ========================================================================== */
+
+/* Approach 1: Parent Wrapper setting CSS Custom Properties (Cyan) */
+.parent-wrapper-approach-1 {
+  --primary: #00f0ff;
+  --primary-foreground: #070b14;
+}
+
+/* Approach 2: Parent Wrapper targeting child button directly via SCSS selector (Emerald) */
+.parent-wrapper-approach-2 {
+  button[hlmBtn],
+  button {
+    background-color: #10b981;
+    color: #ffffff;
+    border-color: transparent;
+
+    &:hover {
+      background-color: #059669;
+    }
+  }
+}
+
