@@ -240,6 +240,106 @@
         </div>
       </section>
 
+      <!-- EXACT REPRODUCTION OF USER SCREENSHOTS -->
+      <section class="poc-section border-primary/40 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="poc-section-title text-primary mb-0">
+            <ng-icon name="lucideSparkles" class="inline-block me-1 text-primary" />
+            Requested Pattern: Multi-Select with In-Trigger Chips & +N Hover Tooltip
+          </h2>
+          <span class="text-[11px] bg-primary/10 text-primary px-2 py-0.5 rounded font-mono">
+            Spartan Composition Pattern
+          </span>
+        </div>
+
+        <div class="space-y-4 max-w-xl">
+          <div>
+            <label class="text-xs font-medium text-foreground block mb-1.5">
+              Multiselect with search internal <span class="text-destructive">*</span>
+            </label>
+
+            <div hlmSelectMultiple [(value)]="selectedPeople">
+              <!-- TRIGGER WITH IN-TRIGGER CHIPS, REMOVE 'x', AND '+N' HOVER TOOLTIP (Screenshot 1) -->
+              <hlm-select-trigger class="w-full min-h-11 h-auto py-1 px-2.5 flex items-center justify-between border-input rounded-md bg-background">
+                @if (selectedPeople().length === 0) {
+                  <span class="text-muted-foreground text-sm">Please select</span>
+                } @else {
+                  <div class="flex flex-wrap items-center gap-1.5 flex-1 pr-2">
+                    <!-- First 2 visible chips -->
+                    @for (person of visibleSelectedPeople(); track person) {
+                      <span class="inline-flex items-center gap-1.5 bg-muted/80 text-foreground px-2 py-0.5 rounded text-xs border border-border/80">
+                        <span>{{ person }}</span>
+                        <button
+                          type="button"
+                          (click)="removePerson(person, $event)"
+                          class="text-muted-foreground hover:text-destructive cursor-pointer inline-flex items-center justify-center"
+                        >
+                          <ng-icon name="lucideX" class="size-3" />
+                        </button>
+                      </span>
+                    }
+
+                    <!-- Overflow +N badge with hover tooltip -->
+                    @if (overflowCount() > 0) {
+                      <span
+                        class="inline-flex items-center bg-muted text-foreground px-1.5 py-0.5 rounded text-xs font-semibold border cursor-help transition-colors hover:bg-accent"
+                        [hlmTooltip]="overflowTooltipText()"
+                        position="top"
+                      >
+                        + {{ overflowCount() }}
+                      </span>
+                    }
+                  </div>
+                }
+              </hlm-select-trigger>
+
+              <!-- OPENED DROPDOWN WITH SEARCH & CHECKBOXES (Screenshot 2) -->
+              <hlm-select-content *hlmSelectPortal class="w-(--brn-select-width) min-w-[320px] max-h-80 p-0 shadow-lg">
+                <!-- Search input box with magnifying glass -->
+                <div class="p-2.5 border-b sticky top-0 bg-popover z-10">
+                  <div class="relative flex items-center">
+                    <input
+                      hlmInput
+                      type="text"
+                      placeholder="Search"
+                      [ngModel]="peopleSearch()"
+                      (ngModelChange)="peopleSearch.set($event)"
+                      (click)="$event.stopPropagation()"
+                      (keydown)="$event.stopPropagation()"
+                      class="w-full pr-8 h-8 text-xs rounded-md bg-background"
+                    />
+                    <ng-icon name="lucideSearch" class="absolute end-2.5 text-muted-foreground text-sm pointer-events-none" />
+                  </div>
+                </div>
+
+                <!-- Checkbox options list -->
+                <hlm-select-group class="py-1">
+                  @for (person of filteredPeople(); track person) {
+                    <hlm-select-item [value]="person" class="flex items-center gap-2.5 px-3 py-2 text-xs cursor-pointer hover:bg-muted/50">
+                      <hlm-checkbox
+                        [checked]="isPersonSelected(person)"
+                        class="pointer-events-none shrink-0"
+                      />
+                      <span class="truncate">{{ person }}</span>
+                    </hlm-select-item>
+                  }
+                  @if (filteredPeople().length === 0) {
+                    <div class="py-6 text-center text-xs text-muted-foreground">
+                      No matching records found.
+                    </div>
+                  }
+                </hlm-select-group>
+              </hlm-select-content>
+            </div>
+          </div>
+
+          <div class="text-xs text-muted-foreground flex items-center justify-between border-t pt-2">
+            <span>Hover over <strong class="text-foreground">+{{ overflowCount() }}</strong> to see the remaining names in a tooltip.</span>
+            <span>Total: <strong class="text-foreground">{{ selectedPeople().length }}</strong> / {{ people.length }}</span>
+          </div>
+        </div>
+      </section>
+
       <!-- SELECT & MULTI-SELECT WITH SEARCH -->
       <section class="poc-section">
         <h2 class="poc-section-title">

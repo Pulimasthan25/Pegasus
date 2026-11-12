@@ -121,9 +121,14 @@ export class SpartanPocComponent {
   readonly clearanceLevel = signal('Level 7');
   readonly selectedAvenger = signal('iron-man');
   readonly selectedProtocol = signal('PROJECT-PEGASUS');
-  readonly selectedProtocols = signal<string[]>(['PROJECT-PEGASUS-ALPHA', 'AVENGERS-INITIATIVE-BETA']);
+  readonly selectedProtocols = signal<string[]>([
+    'PROJECT-PEGASUS-ALPHA',
+    'AVENGERS-INITIATIVE-BETA',
+  ]);
   readonly selectSearchQuery = signal('');
-  readonly missionNotes = signal('Tesseract stability matrix holding steady at 4.21 GeV dark energy flux.');
+  readonly missionNotes = signal(
+    'Tesseract stability matrix holding steady at 4.21 GeV dark energy flux.',
+  );
   readonly quantumEncryption = signal(true);
   readonly vibraniumGrid = signal(true);
   readonly energyFrequency = signal('cosmic');
@@ -141,6 +146,41 @@ export class SpartanPocComponent {
     { value: 'hulk', label: 'Bruce Banner // Incredible Hulk' },
     { value: 'captain-marvel', label: 'Carol Danvers // Captain Marvel' },
   ];
+
+  // People roster (matching user's screenshot mockup)
+  readonly people = [
+    'Ashok',
+    'Jay',
+    'Srinivas',
+    'Vivek',
+    'Prakash',
+    'Sudheer',
+    'Manohar',
+    'Sudhakar',
+  ];
+
+  readonly selectedPeople = signal<string[]>(['Prakash', 'Sudheer', 'Manohar', 'Sudhakar', 'Jay']);
+
+  readonly peopleSearch = signal('');
+
+  readonly visibleSelectedPeople = computed(() => this.selectedPeople().slice(0, 2));
+  readonly overflowCount = computed(() => Math.max(0, this.selectedPeople().length - 2));
+  readonly overflowTooltipText = computed(() => this.selectedPeople().slice(2).join(',\n'));
+
+  readonly filteredPeople = computed(() => {
+    const q = this.peopleSearch().toLowerCase().trim();
+    if (!q) return this.people;
+    return this.people.filter((p) => p.toLowerCase().includes(q));
+  });
+
+  isPersonSelected(person: string): boolean {
+    return this.selectedPeople().includes(person);
+  }
+
+  removePerson(person: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.selectedPeople.update((list) => list.filter((p) => p !== person));
+  }
 
   readonly protocols = [
     'PROJECT-PEGASUS-ALPHA',
